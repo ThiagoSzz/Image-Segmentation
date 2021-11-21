@@ -1,16 +1,13 @@
 
-function [clustered, m, n] = clusterImage(image, k)
+function [clustered, labeled, indexVector] = clusterImage(image, k)
 
-    redChannel = double(image(:,:,1));
-    greenChannel = double(image(:,:,2));
-    blueChannel = double(image(:,:,3));
+    pixelVector = resizeI(image);%tranforma a imagem em um vetor de pixels
 
-    channels = [redChannel(:), greenChannel(:), blueChannel(:)];
+    [pixelVector, indexVector] = kmeans(pixelVector, k,'Distance','sqeuclidean','MaxIter',1000,'Start','sample');%Aplica o algoritmo k-means no vetor de pixels com a métrica escolhida
 
-    [m, n] = kmeans(channels, k);
+    indexVector = indexVector/255;%normaliza os vetores de cada indice
+    
+    labeled = reshape(pixelVector, size(image,1), size(image,2));%tranforma o vetor em uma matriz de pixels
 
-    m = reshape(m, size(image,1), size(image,2));
-    n = n/255;
-
-    clustered = label2rgb(m, n);
+    clustered = label2rgb(labeled, indexVector);%mapeia cada indice para sua cor correspondente
 end
