@@ -1,9 +1,9 @@
 
 function quantized = quantizeImage(image, n)
 
-    img = rgb2hsv(image);
+    image = rgb2hsv(image);
 
-    threshVector = multithresh(img(:,:,3), n);
+    threshVector = multithresh(image(:,:,3), n);
 
-    quantized = imquantize(img(:,:,3), threshVector);
+    quantized = imquantize(image(:,:,3), threshVector);
 end

@@ -1,23 +1,32 @@
-image = imread('C:\Users\User\Desktop\TrabalhoFPI\Threshold Segmentation\mcdonalds.jpg');
+path = 'C:\Users\User\Desktop\TrabalhoFPI\k-Means Segmentation\';
+imagesPath = {append(path, 'placa-br.jpg'), append(path, 'mcdonalds.jpg')};
 
-n = 20;
-
-image = rgb2hsv(image);
-
-threshVector = multithresh(image(:,:,3), n);
-
-quantized = imquantize(image(:,:,3), threshVector);
-
-image = hsv2rgb(image);
-
-mask = {};
-
-sumOfImages = zeros(size(quantized));
-for i=1:n+1
-    mask{i} = buildMask(quantPlane, i);
+for i=1:length(imagesPath)
     
-    maskedImage = image.*mask{i};
-    sumOfImages = maskedImage + sumOfImages;
+    fprintf('\nProcess for image %d initialized.\n', i);
     
-    imshow(sumOfImages);
+    image = imread(imagesPath{i});
+    limiarizationNumber = 20;
+
+    image = rgb2hsv(image);
+    threshVector = multithresh(image(:,:,3), limiarizationNumber);
+    quantized = imquantize(image(:,:,3), threshVector);
+    image = hsv2rgb(image);
+    
+    fprintf('Image %d segmented successfully.\n', i);
+
+    mask = {};
+    sumOfImages = zeros(size(quantized));
+    
+    figure();
+        for j=1:limiarizationNumber+1
+            mask{j} = buildMask(quantized, j);
+
+            maskedImage = image.*mask{j};
+            sumOfImages = maskedImage + sumOfImages;
+
+            imshow(sumOfImages);
+        end
+    
+    fprintf('Image %d printed successfully.\n', i);
 end
