@@ -1,0 +1,12 @@
+
+function buildMask(labeledImage, segment)
+    
+    for i=1:size(labeledImage,1)
+        for j=1:size(labeledImage,2)
+            
+            if(labeledImage(i, j) == segment)
+                    
+            end
+        end
+    end
+end
