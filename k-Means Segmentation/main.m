@@ -1,5 +1,5 @@
 path = 'C:\Users\User\Desktop\TrabalhoFPI\k-Means Segmentation\';
-imagesPath = {append(path, 'placa-br.jpg'), append(path, 'mcdonalds.jpg')};
+imagesPath = {append(path, 'carros.png'), append(path, 'mcdonalds.jpg')};
 
 for i=1:length(imagesPath)
     
@@ -13,12 +13,22 @@ for i=1:length(imagesPath)
     
     fprintf('Image %d segmented successfully.\n', i);
 
-    sumOfImages = eachClusterImg{1};
     
     figure();
-        for j = 2:k
-            sumOfImages = sumOfImages + eachClusterImg{j};
+        for j = 1:k
+            if(j == 1)
+                sumOfImages = eachClusterImg{j};
+            else
+                sumOfImages = sumOfImages + eachClusterImg{j};
+            end
+            
             imshow(sumOfImages);
+            
+%             imageName = append(path, 'sumOfImages\imagem', num2str(i), '-', num2str(j), '.png');
+%             imwrite(sumOfImages, imageName);
+%             
+%             imageName = append(path, 'segments\segment', num2str(i), '-', num2str(j), '.png');
+%             imwrite(eachClusterImg{j}, imageName);
         end
     
     fprintf('Image %d printed successfully.\n', i);
